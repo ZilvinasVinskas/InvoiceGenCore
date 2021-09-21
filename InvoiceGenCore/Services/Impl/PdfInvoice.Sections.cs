@@ -48,10 +48,26 @@ namespace InvoiceGenCore.Services.Impl
             row = subTable.AddRow();
             row.Cells[0].AddParagraph("REFERENCE:", ParagraphAlignment.Left, "H2-9B-Color");
             row.Cells[1].AddParagraph(Invoice.Reference, ParagraphAlignment.Right, "H2-9");
-            row.Cells[0].AddParagraph("BILLING DATE:", ParagraphAlignment.Left, "H2-9B-Color");
-            row.Cells[1].AddParagraph(Invoice.BillingDate.ToShortDateString(), ParagraphAlignment.Right, "H2-9");
-            row.Cells[0].AddParagraph("DUE DATE:", ParagraphAlignment.Left, "H2-9B-Color");
-            row.Cells[1].AddParagraph(Invoice.DueDate.ToShortDateString(), ParagraphAlignment.Right, "H2-9");
+            if (Invoice.InvoiceDate.HasValue)
+            {
+                row.Cells[0].AddParagraph("INVOICE DATE:", ParagraphAlignment.Left, "H2-9B-Color");
+                row.Cells[1].AddParagraph(Invoice.InvoiceDate.Value.ToShortDateString(), ParagraphAlignment.Right, "H2-9");
+            }
+            if (Invoice.BillingDate.HasValue)
+            {
+                row.Cells[0].AddParagraph("BILLING DATE:", ParagraphAlignment.Left, "H2-9B-Color");
+                row.Cells[1].AddParagraph(Invoice.BillingDate.Value.ToShortDateString(), ParagraphAlignment.Right, "H2-9");
+            }
+            if (Invoice.DueDate.HasValue)
+            {
+                row.Cells[0].AddParagraph("DUE DATE:", ParagraphAlignment.Left, "H2-9B-Color");
+                row.Cells[1].AddParagraph(Invoice.DueDate.Value.ToShortDateString(), ParagraphAlignment.Right, "H2-9");
+            }
+            if (Invoice.PaidDate.HasValue)
+            {
+                row.Cells[0].AddParagraph("PAID DATE:", ParagraphAlignment.Left, "H2-9B-Color");
+                row.Cells[1].AddParagraph(Invoice.PaidDate.Value.ToShortDateString(), ParagraphAlignment.Right, "H2-9");
+            }
         }
 
         public void FooterSection()
@@ -112,6 +128,10 @@ namespace InvoiceGenCore.Services.Impl
         {
             foreach (string line in address)
             {
+                if (string.IsNullOrWhiteSpace(line))
+                {
+                    continue;
+                }
                 Paragraph name = cell.AddParagraph();
                 if (line == address[0])
                     name.AddFormattedText(line, "H2-10B");
@@ -189,31 +209,31 @@ namespace InvoiceGenCore.Services.Impl
             cell.AddParagraph(item.Description, ParagraphAlignment.Left, "H2-9-Grey");
 
             cell = row.Cells[1];
-            cell.VerticalAlignment = VerticalAlignment.Center;
+            cell.VerticalAlignment = VerticalAlignment.Top;
             cell.AddParagraph(item.Amount.ToCurrency(), ParagraphAlignment.Center, "H2-9");
 
             cell = row.Cells[2];
-            cell.VerticalAlignment = VerticalAlignment.Center;
+            cell.VerticalAlignment = VerticalAlignment.Top;
             cell.AddParagraph(item.VAT.ToCurrency(), ParagraphAlignment.Center, "H2-9");
 
             cell = row.Cells[3];
-            cell.VerticalAlignment = VerticalAlignment.Center;
+            cell.VerticalAlignment = VerticalAlignment.Top;
             cell.AddParagraph(item.Price.ToCurrency(Invoice.Currency), ParagraphAlignment.Center, "H2-9");
 
             if (Invoice.HasDiscount)
             {
                 cell = row.Cells[4];
-                cell.VerticalAlignment = VerticalAlignment.Center;
+                cell.VerticalAlignment = VerticalAlignment.Top;
                 cell.AddParagraph(item.Discount, ParagraphAlignment.Center, "H2-9");
 
                 cell = row.Cells[5];
-                cell.VerticalAlignment = VerticalAlignment.Center;
+                cell.VerticalAlignment = VerticalAlignment.Top;
                 cell.AddParagraph(item.Total.ToCurrency(Invoice.Currency), ParagraphAlignment.Center, "H2-9");
             }
             else
             {
                 cell = row.Cells[4];
-                cell.VerticalAlignment = VerticalAlignment.Center;
+                cell.VerticalAlignment = VerticalAlignment.Top;
                 cell.AddParagraph(item.Total.ToCurrency(Invoice.Currency), ParagraphAlignment.Center, "H2-9");
             }
         }
@@ -306,19 +326,16 @@ namespace InvoiceGenCore.Services.Impl
                 {
                     row.Cells[0].AddParagraph(string.Format("Company Number: {0}, VAT Number: {1}",
                         Invoice.Company.CompanyNumber, Invoice.Company.VatNumber),
-                        ParagraphAlignment.Center, "H2-9B-Inverse")
-                        .Format.Shading.Color = shading;
+                        ParagraphAlignment.Center, "H2-9B");
                 }
                 else
                 {
                     if (Invoice.Company.HasCompanyNumber)
                         row.Cells[0].AddParagraph(string.Format("Company Number: {0}", Invoice.Company.CompanyNumber),
-                        ParagraphAlignment.Center, "H2-9B-Inverse")
-                        .Format.Shading.Color = shading;
+                        ParagraphAlignment.Center, "H2-9B-");
                     else
                         row.Cells[0].AddParagraph(string.Format("VAT Number: {0}", Invoice.Company.VatNumber),
-                        ParagraphAlignment.Center, "H2-9B-Inverse")
-                        .Format.Shading.Color = shading;
+                        ParagraphAlignment.Center, "H2-9B-");
                 }
             }
         }

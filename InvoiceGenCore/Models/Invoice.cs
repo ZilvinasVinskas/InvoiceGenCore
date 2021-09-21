@@ -17,8 +17,10 @@ namespace InvoiceGenCore.Models
         public Size ImageSize { get; set; }
         public string Title { get; set; }
         public string Reference { get; set; }
-        public DateTime BillingDate { get; set; }
-        public DateTime DueDate { get; set; }
+        public DateTime? InvoiceDate{ get; set; }
+        public DateTime? BillingDate { get; set; }
+        public DateTime? DueDate { get; set; }
+        public DateTime? PaidDate { get; set; }
         public Address Client { get; set; }
         public Address Company { get; set; }
         public PositionOption CompanyOrientation { get; set; }

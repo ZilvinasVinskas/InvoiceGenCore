@@ -15,7 +15,7 @@ namespace InvoiceGenCore.Services
         {
             get
             {
-                DateTime now = DateTime.Now;
+                DateTime now = DateTime.UtcNow;
                 return string.Format("{0}{1}{2}", now.GetShortYear(), now.GetWeekNumber(), (int)now.DayOfWeek);
             }
         }
@@ -23,16 +23,15 @@ namespace InvoiceGenCore.Services
         public InvoicerApi(
             SizeOption size = SizeOption.A4,
             OrientationOption orientation = OrientationOption.Portrait,
-            string currency = "£"
+            string currency = "£",
+            BillType documentType = BillType.Invoice         
             )
         {
             Invoice = new Invoice();
-            Invoice.Title = "Invoice";
+            Invoice.Title = documentType.ToString();
             Invoice.PageSize = size;
             Invoice.PageOrientation = orientation;
             Invoice.Currency = currency;
-            Invoice.BillingDate = DateTime.Now;
-            Invoice.DueDate = Invoice.BillingDate.AddDays(14);
             Invoice.Reference = DefaultReference;
         }
 
@@ -68,15 +67,27 @@ namespace InvoiceGenCore.Services
             return this;
         }
 
-        public IInvoicerOptions BillingDate(DateTime date)
+        public IInvoicerOptions InvoiceDate(DateTime? date)
+        {
+            Invoice.InvoiceDate = date;
+            return this;
+        }
+
+        public IInvoicerOptions BillingDate(DateTime? date)
         {
             Invoice.BillingDate = date;
             return this;
         }
 
-        public IInvoicerOptions DueDate(DateTime dueDate)
+        public IInvoicerOptions DueDate(DateTime? dueDate)
         {
             Invoice.DueDate = dueDate;
+            return this;
+        }
+
+        public IInvoicerOptions PaidDate(DateTime? paidDate)
+        {
+            Invoice.PaidDate = paidDate;
             return this;
         }
 

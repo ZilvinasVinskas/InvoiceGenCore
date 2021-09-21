@@ -2,12 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <Authors>Craig Banach https://github.com/CraigBanach, simonray https://github.com/simonray</Authors>
-    <Company />
+    <Authors>Zilvinas Vinskas https://github.com/ZilvinasVinskas</Authors>
+    <Company>Zilvinas Vinskas https://github.com/ZilvinasVinskas</Company>
     <Copyright>Copyright (c) 2021</Copyright>
     <PackageLicenseFile>license.txt</PackageLicenseFile>
-    <RepositoryUrl>https://github.com/CraigBanach/InvoiceGenCore</RepositoryUrl>
+    <RepositoryUrl>https://github.com/ZilvinasVinskas/InvoiceGenCore</RepositoryUrl>
     <PackageTags>PDF Generation, .NET Core</PackageTags>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <AssemblyVersion>1.0.0.1</AssemblyVersion>
+    <FileVersion>1.0.0.1</FileVersion>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>

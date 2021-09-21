@@ -38,16 +38,28 @@ namespace InvoiceGenCore.Services
         IInvoicerOptions Reference(string reference);
 
         /// <summary>
+        /// Set the document invoice creation date
+        /// </summary>
+        /// <param name="date">Optional</param>
+        IInvoicerOptions InvoiceDate(DateTime? date);
+
+        /// <summary>
         /// Set the document billing date
         /// </summary>
-        /// <param name="date">Date, if ommited this is set to todays date.</param>
-        IInvoicerOptions BillingDate(DateTime date);
+        /// <param name="date">Optional</param>
+        IInvoicerOptions BillingDate(DateTime? date);
 
         /// <summary>
         /// Set the due date.
         /// </summary>
-        /// <param name="dueDate">Date, if ommited this is set to todays date + 14 days.</param>
-        IInvoicerOptions DueDate(DateTime dueDate);
+        /// <param name="dueDate">Optional</param>
+        IInvoicerOptions DueDate(DateTime? dueDate);
+
+        /// <summary>
+        /// Set the paid date.
+        /// </summary>
+        /// <param name="paidDate">Optional</param>
+        IInvoicerOptions PaidDate(DateTime? paidDate);
 
         /// <summary>
         /// Set the company address
